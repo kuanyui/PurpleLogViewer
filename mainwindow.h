@@ -28,10 +28,13 @@ private slots:
 private:
     Ui::MainWindow *ui;
     QProcess *agProcess;
+
+    QString getKeyword();
     // path selector
     QDir qdir;
-
+    QString getCurrentPath();
     void setupPathSelector();
+
     // tree widget
     void addTreeWidgetItem(QString path);
 };

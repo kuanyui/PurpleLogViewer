@@ -42,9 +42,13 @@ MainWindow::~MainWindow()
 }
 
 
+QString MainWindow::getKeyword(){
+    return ui->keyword->text();
+}
+
 void MainWindow::searchButtonClicked() {
     QStringList args;
-    args << "--files-with-matches" << "--ackmate" << "a b c" << LOG_ROOT + "irc/kuanyui@irc.freenode.org";
+    args << "--files-with-matches" << "--ackmate" << getKeyword() << getCurrentPath();
     agProcess->start("ag", args);
 }
 
@@ -113,6 +117,17 @@ void MainWindow::updateFriendSelector()
         qdir.cd(LOG_ROOT + protocol + "/" + account);
         ui->friend_box->addItems(qdir.entryList());
     }
+}
+
+QString MainWindow::getCurrentPath()
+{
+    QString protocol = ui->protocol_box->currentText();
+    QString account = ui->account_box->currentText();
+    QString friend_chat = ui->friend_box->currentText();
+    if (protocol == CBOX_EMPTY_STR) { return LOG_ROOT ;};
+    if (account == CBOX_EMPTY_STR) { return LOG_ROOT + protocol ;};
+    if (friend_chat == CBOX_EMPTY_STR) { return LOG_ROOT + protocol + "/" + account; };
+    return LOG_ROOT + protocol + "/" + account + "/"  + friend_chat ;
 }
 
 // ==========================================================
