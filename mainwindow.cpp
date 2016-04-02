@@ -6,7 +6,7 @@
 #include <QString>
 #include <QStringList>
 #include <QDir>
-
+#include <QTreeWidget>
 
 #define LOG_ROOT QDir::homePath() + QString("/.purple/logs/")
 
@@ -50,7 +50,8 @@ void MainWindow::searchButtonClicked() {
 void MainWindow::processOutputHandler()
 {
     while ( agProcess->canReadLine() ) {
-        ui->html_browser->append(QString(agProcess->readLine()));
+        QString path = QString(agProcess->readLine()).mid(1); // mid(1) due to "--ackmate" argument
+        addTreeWidgetItem(path);
     }
 }
 
@@ -58,4 +59,15 @@ void MainWindow::processOutputHandler()
 void MainWindow::processFinished()
 {
     QMessageBox::information(this, "Title", "Ag process finished!");
+}
+
+
+// ==========================================================
+// QTreeWidget
+// ==========================================================
+
+
+void MainWindow::addTreeWidgetItem(QString path)
+{
+    qDebug() << path;
 }

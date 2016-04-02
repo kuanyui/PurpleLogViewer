@@ -24,6 +24,8 @@ private slots:
 private:
     Ui::MainWindow *ui;
     QProcess *agProcess;
+
+    void addTreeWidgetItem(QString path);
 };
 
 #endif // MAINWINDOW_H
