@@ -13,7 +13,7 @@ MainWindow::MainWindow(QWidget *parent) :
     // Setup process
     connect(agProcess, SIGNAL(finished(int)),
             this,      SLOT(processFinished()));
-    connect(agProcess, SIGNAL(readyReadStandardOutput()),
+    connect(agProcess, SIGNAL(readyRead()),
             this,      SLOT(processOutputHandler()));
     // click button
     connect(ui->search_button, SIGNAL(clicked()),
