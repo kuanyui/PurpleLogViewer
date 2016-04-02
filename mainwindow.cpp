@@ -5,6 +5,11 @@
 #include <QDebug>
 #include <QString>
 #include <QStringList>
+#include <QDir>
+
+
+#define LOG_ROOT QDir::homePath() + QString("/.purple/logs/")
+
 // http://log.noiretaya.com/200
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -21,7 +26,6 @@ MainWindow::MainWindow(QWidget *parent) :
     // click button
     connect(ui->search_button, SIGNAL(clicked()),
             this,              SLOT(searchButtonClicked()));
-
 }
 
 MainWindow::~MainWindow()
@@ -38,7 +42,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::searchButtonClicked() {
     QStringList args;
-    args << "--files-with-matches" << "--ackmate" << "a b c" << "/home/kuanyui/.purple/logs/irc/kuanyui@irc.freenode.org";
+    args << "--files-with-matches" << "--ackmate" << "a b c" << LOG_ROOT + "irc/kuanyui@irc.freenode.org";
     agProcess->start("ag", args);
 }
 
