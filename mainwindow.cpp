@@ -46,10 +46,15 @@ QString MainWindow::getKeyword(){
     return ui->keyword->text();
 }
 
+// ==========================================================
+// QProcess
+// ==========================================================
+
 void MainWindow::searchButtonClicked() {
     QStringList args;
     args << "--files-with-matches" << "--ackmate" << getKeyword() << getCurrentPath();
     agProcess->start("ag", args);
+    qDebug() << args;
 }
 
 
@@ -119,15 +124,17 @@ void MainWindow::updateFriendSelector()
     }
 }
 
-QString MainWindow::getCurrentPath()
+QString MainWindow::getCurrentPath(bool fullPath)
 {
     QString protocol = ui->protocol_box->currentText();
     QString account = ui->account_box->currentText();
     QString friend_chat = ui->friend_box->currentText();
-    if (protocol == CBOX_EMPTY_STR) { return LOG_ROOT ;};
-    if (account == CBOX_EMPTY_STR) { return LOG_ROOT + protocol ;};
-    if (friend_chat == CBOX_EMPTY_STR) { return LOG_ROOT + protocol + "/" + account; };
-    return LOG_ROOT + protocol + "/" + account + "/"  + friend_chat ;
+    QString root ("");
+    if (fullPath) { root = LOG_ROOT; };
+    if (protocol == CBOX_EMPTY_STR) { return root ;};
+    if (account == CBOX_EMPTY_STR) { return root + protocol ;};
+    if (friend_chat == CBOX_EMPTY_STR) { return root + protocol + "/" + account; };
+    return root + protocol + "/" + account + "/"  + friend_chat ;
 }
 
 // ==========================================================
@@ -137,5 +144,5 @@ QString MainWindow::getCurrentPath()
 
 void MainWindow::addTreeWidgetItem(QString path)
 {
-    qDebug() << path;
+
 }

@@ -32,7 +32,7 @@ private:
     QString getKeyword();
     // path selector
     QDir qdir;
-    QString getCurrentPath();
+    QString getCurrentPath(bool fullPath = true);
     void setupPathSelector();
 
     // tree widget
