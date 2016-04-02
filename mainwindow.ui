@@ -59,7 +59,7 @@
        </widget>
       </item>
       <item row="1" column="2">
-       <widget class="QComboBox" name="chatroom_box">
+       <widget class="QComboBox" name="friend_box">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -97,7 +97,7 @@
         </sizepolicy>
        </property>
        <attribute name="headerVisible">
-        <bool>true</bool>
+        <bool>false</bool>
        </attribute>
        <column>
         <property name="text">
@@ -120,7 +120,7 @@ p, li { white-space: pre-wrap; }
    <zorder>splitter</zorder>
    <zorder>protocol_box</zorder>
    <zorder>account_box</zorder>
-   <zorder>chatroom_box</zorder>
+   <zorder>friend_box</zorder>
    <zorder>search_button</zorder>
    <zorder>keyword</zorder>
    <zorder>label</zorder>

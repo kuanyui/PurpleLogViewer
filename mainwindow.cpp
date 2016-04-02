@@ -18,6 +18,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     agProcess = new QProcess(this);
+    setupPathSelector();
     // Setup process
     connect(agProcess, SIGNAL(finished(int)),
             this,      SLOT(processFinished()));
@@ -61,6 +62,34 @@ void MainWindow::processFinished()
     QMessageBox::information(this, "Title", "Ag process finished!");
 }
 
+// ==========================================================
+// Path Selector: Protocal / Account / Chatroom
+// ==========================================================
+
+void MainWindow::setupPathSelector()
+{
+    protocol_dir = QDir(LOG_ROOT);
+    account_dir = QDir();
+    friend_dir = QDir();
+    connect(ui->protocol_box, SIGNAL( currentIndexChanged(int) ),
+            ui->account_box, SLOT( clear() ));
+    connect(ui->protocol_box, SIGNAL( currentIndexChanged(int) ),
+            ui->friend_box, SLOT( clear() ));
+    connect(ui->account_box, SIGNAL( currentIndexChanged(int) ),
+            ui->friend_box, SLOT( clear() ));
+
+}
+
+void MainWindow::updateAccountsSelector()
+{
+
+}
+
+
+void MainWindow::updateChatroomsSelector()
+{
+
+}
 
 // ==========================================================
 // QTreeWidget
