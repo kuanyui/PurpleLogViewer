@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>601</width>
-    <height>529</height>
+    <height>575</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,29 +16,55 @@
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,1">
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout">
-      <item>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="0">
        <widget class="QLabel" name="label">
         <property name="text">
-         <string>Root path:</string>
+         <string>Protocol</string>
         </property>
        </widget>
       </item>
-      <item>
-       <widget class="QPushButton" name="path_button">
+      <item row="0" column="1">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>Account</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>Chat room/friend</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QComboBox" name="protocol_box">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QComboBox" name="account_box">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QComboBox" name="chatroom_box">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">text-align:left;
-padding:0.3em 0.5em;
-</string>
-        </property>
-        <property name="text">
-         <string>~/.purple/irc</string>
         </property>
        </widget>
       </item>
@@ -71,7 +97,7 @@ padding:0.3em 0.5em;
         </sizepolicy>
        </property>
        <attribute name="headerVisible">
-        <bool>false</bool>
+        <bool>true</bool>
        </attribute>
        <column>
         <property name="text">
@@ -91,6 +117,15 @@ p, li { white-space: pre-wrap; }
      </widget>
     </item>
    </layout>
+   <zorder>splitter</zorder>
+   <zorder>protocol_box</zorder>
+   <zorder>account_box</zorder>
+   <zorder>chatroom_box</zorder>
+   <zorder>search_button</zorder>
+   <zorder>keyword</zorder>
+   <zorder>label</zorder>
+   <zorder>label_2</zorder>
+   <zorder>label_3</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
