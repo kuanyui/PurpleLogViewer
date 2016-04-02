@@ -9,6 +9,7 @@
 #include <QTreeWidget>
 
 #define LOG_ROOT QDir::homePath() + QString("/.purple/logs/")
+#define CBOX_EMPTY_STR "--All--"
 
 // http://log.noiretaya.com/200
 
@@ -68,34 +69,50 @@ void MainWindow::processFinished()
 
 void MainWindow::setupPathSelector()
 {
-    protocol_dir = QDir(LOG_ROOT);
-    account_dir = QDir();
-    friend_dir = QDir();
+    qdir = QDir(LOG_ROOT);
+    qdir.setFilter(QDir::AllDirs | QDir::NoDotAndDotDot);
 
-    connect(ui->protocol_box, SIGNAL( currentIndexChanged(int) ),
+    connect(ui->protocol_box, SIGNAL( currentTextChanged(QString) ),
             ui->account_box, SLOT( clear() ));
-    connect(ui->protocol_box, SIGNAL( currentIndexChanged(int) ),
+    connect(ui->protocol_box, SIGNAL( currentTextChanged(QString) ),
             ui->friend_box, SLOT( clear() ));
-    connect(ui->account_box, SIGNAL( currentIndexChanged(int) ),
+    connect(ui->account_box, SIGNAL( currentTextChanged(QString) ),
             ui->friend_box, SLOT( clear() ));
 
-    for (QString protocol : protocol_dir.entryList(QDir::AllDirs | QDir::NoDotAndDotDot)){
-        ui->protocol_box->addItem(protocol);
+    connect(ui->protocol_box, SIGNAL( currentTextChanged(QString) ),
+            this, SLOT(updateAccountSelector()));
+    connect(ui->account_box, SIGNAL( currentTextChanged(QString) ),
+            this, SLOT(updateFriendSelector()));
+
+    ui->protocol_box->addItem(CBOX_EMPTY_STR);
+    ui->protocol_box->addItems(qdir.entryList());
+
+}
+
+void MainWindow::updateAccountSelector()
+{
+    ui->account_box->addItem(CBOX_EMPTY_STR);
+    QString protocol = ui->protocol_box->currentText();
+    if (protocol != CBOX_EMPTY_STR)
+    {
+        qdir.cd(LOG_ROOT + protocol);
+        qDebug() << qdir.currentPath();
+        qDebug() << qdir.entryList();
+        ui->account_box->addItems(qdir.entryList());
     }
-
 }
 
 
-
-void MainWindow::updateAccountsSelector()
+void MainWindow::updateFriendSelector()
 {
-
-}
-
-
-void MainWindow::updateChatroomsSelector()
-{
-
+    ui->friend_box->addItem(CBOX_EMPTY_STR);
+    QString protocol = ui->protocol_box->currentText();
+    QString account = ui->account_box->currentText();
+    if (account != CBOX_EMPTY_STR)
+    {
+        qdir.cd(LOG_ROOT + protocol + "/" + account);
+        ui->friend_box->addItems(qdir.entryList());
+    }
 }
 
 // ==========================================================

@@ -22,16 +22,15 @@ private slots:
     void processOutputHandler();
     void processFinished();
     // path selector
-    void updateAccountsSelector();
-    void updateChatroomsSelector();
+    void updateAccountSelector();
+    void updateFriendSelector();
 
 private:
     Ui::MainWindow *ui;
     QProcess *agProcess;
     // path selector
-    QDir protocol_dir;
-    QDir account_dir;
-    QDir friend_dir;
+    QDir qdir;
+
     void setupPathSelector();
     // tree widget
     void addTreeWidgetItem(QString path);
