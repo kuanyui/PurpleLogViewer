@@ -71,6 +71,7 @@ void MainWindow::setupPathSelector()
     protocol_dir = QDir(LOG_ROOT);
     account_dir = QDir();
     friend_dir = QDir();
+
     connect(ui->protocol_box, SIGNAL( currentIndexChanged(int) ),
             ui->account_box, SLOT( clear() ));
     connect(ui->protocol_box, SIGNAL( currentIndexChanged(int) ),
@@ -78,7 +79,13 @@ void MainWindow::setupPathSelector()
     connect(ui->account_box, SIGNAL( currentIndexChanged(int) ),
             ui->friend_box, SLOT( clear() ));
 
+    for (QString protocol : protocol_dir.entryList(QDir::AllDirs | QDir::NoDotAndDotDot)){
+        ui->protocol_box->addItem(protocol);
+    }
+
 }
+
+
 
 void MainWindow::updateAccountsSelector()
 {
