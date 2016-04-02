@@ -3,6 +3,8 @@
 #include <QMessageBox>
 #include <QProcess>
 #include <QDebug>
+#include <QString>
+#include <QStringList>
 // http://log.noiretaya.com/200
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -36,7 +38,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::searchButtonClicked() {
     QStringList args;
-    args << "kuanyui" << "/home/kuanyui/.purple/logs/irc/kuanyui@irc.freenode.org/";
+    args << "--files-with-matches" << "--ackmate" << "a b c" << "/home/kuanyui/.purple/logs/irc/kuanyui@irc.freenode.org";
     agProcess->start("ag", args);
 }
 
@@ -44,8 +46,7 @@ void MainWindow::searchButtonClicked() {
 void MainWindow::processOutputHandler()
 {
     while ( agProcess->canReadLine() ) {
-        QByteArray raw_line = agProcess->readLine();
-        ui->html_browser->append(QString(raw_line));
+        ui->html_browser->append(QString(agProcess->readLine()));
     }
 }
 
