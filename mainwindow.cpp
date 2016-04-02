@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include <QMessageBox>
 #include <QProcess>
+#include <QDebug>
 // http://log.noiretaya.com/200
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -35,17 +36,17 @@ MainWindow::~MainWindow()
 
 void MainWindow::searchButtonClicked() {
     QStringList args;
-    args << "-l" << "kuanyui" << "/home/kuanyui/.purple/logs/irc/kuanyui@irc.freenode.org/";
+    args << "kuanyui" << "/home/kuanyui/.purple/logs/irc/kuanyui@irc.freenode.org/";
     agProcess->start("ag", args);
 }
 
 
 void MainWindow::processOutputHandler()
 {
-    //QByteArray raw_output = agProcess->readAllStandardOutput();
-    QMessageBox::information(this, "Title", "shit");
-    //QMessageBox::information(this, "Title", QString(raw_output.data()));
-    //ui->html_browser->append(QString(raw_output.data()));
+    while ( agProcess->canReadLine() ) {
+        QByteArray raw_line = agProcess->readLine();
+        ui->html_browser->append(QString(raw_line));
+    }
 }
 
 
