@@ -10,7 +10,7 @@
 
 #define LOG_ROOT QDir::homePath() + QString("/.purple/logs/")
 #define CBOX_EMPTY_STR "--All--"
-#define SEP QDir::separator();
+#define SEP QDir::separator()
 
 // http://log.noiretaya.com/200
 
@@ -143,36 +143,56 @@ QString MainWindow::getCurrentPath(bool fullPath)
 // ==========================================================
 
 
-void MainWindow::addTreeWidgetItem(QString fullFilePath)
+void MainWindow::addTreeWidgetItem(const QString logFilePath)  // log file path
 {
-    QString relativePath = fullFilePath.mid(LOG_ROOT.length());
-    QStringList pro_acc_fri_file = relativePath.split(SEP);
-    QString &protocol_str = pro_acc_fri_file[0];
-    QString &account_str = pro_acc_fri_file[1];
-    QString &friend_str = pro_acc_fri_file[2];
-    QString &filename_str = pro_acc_fri_file[3];
+    QStringList pro_acc_fri_file = logFilePath.split(SEP);
+    QString protocol_str = pro_acc_fri_file[pro_acc_fri_file.size() -4];
+    QString account_str = pro_acc_fri_file[pro_acc_fri_file.size() -3];
+    QString friend_str = pro_acc_fri_file[pro_acc_fri_file.size() -2];
+    QString filename_str = pro_acc_fri_file[pro_acc_fri_file.size() - 1];
+    // Protocol
+    QTreeWidgetItem *protocol_item = itemExist(ui->tree_widget, protocol_str);
+    if (protocol_item == nullptr){
+        protocol_item = new QTreeWidgetItem(ui->tree_widget);
+        protocol_item->setText(0, protocol_str);
+    }
+    // Account
+    QTreeWidgetItem *account_item = itemExist(protocol_item, account_str);
+    if (account_item == nullptr){
+        account_item = new QTreeWidgetItem(protocol_item);
+        account_item->setText(0, account_str);
+    }
+    // Friend
+    QTreeWidgetItem *friend_item = itemExist(account_item, friend_str);
+    if (friend_item == nullptr){
+        friend_item = new QTreeWidgetItem(account_item);
+        friend_item->setText(0, friend_str);
+    }
+    // Log file itself
+    QTreeWidgetItem *log_file_item = new QTreeWidgetItem(friend_item);
+    log_file_item->setText(0, filename_str);
 }
 
-bool MainWindow::itemExist(QTreeWidget &tree_widget, QString &pattern)
+QTreeWidgetItem* MainWindow::itemExist(const QTreeWidget &tree_widget, const QString &pattern)
 {
-    QTreeWidgetItemIterator itemIterator(tree_widget);
+    QTreeWidgetItemIterator itemIterator(tree_widget, QTreeWidgetItemIterator::NoChildren);
     while (*itemIterator)  {
         if ((*itemIterator)->text() == pattern){
-            return true;
+            return (*itemIterator);
         }
         ++itemIterator;
     }
-    return false;
+    return nullptr;
 }
 
-bool MainWindow::itemExist(QTreeWidgetItem &item, QString &pattern)
+QTreeWidgetItem* MainWindow::itemExist(const QTreeWidgetItem &item, const QString &pattern)
 {
-    QTreeWidgetItemIterator itemIterator(item);
+    QTreeWidgetItemIterator itemIterator(item, QTreeWidgetItemIterator::NoChildren);
     while (*itemIterator)  {
         if ((*itemIterator)->text() == pattern){
-            return true;
+            return (*itemIterator);
         }
         ++itemIterator;
     }
-    return false;
+    return nullptr;
 }

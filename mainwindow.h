@@ -37,9 +37,9 @@ private:
     void setupPathSelector();
 
     // tree widget
-    void addTreeWidgetItem(QString fullFilePathPath);
-    bool itemExist(QTreeWidgetItem &item, QString &pattern);
-    bool itemExist(QTreeWidget &tree_widget, QString &pattern);
+    void addTreeWidgetItem(const QString logFilePath);
+    QTreeWidgetItem* itemExist(const QTreeWidgetItem &item, const QString &pattern);
+    QTreeWidgetItem* itemExist(const QTreeWidget &tree_widget, const QString &pattern);
 };
 
 #endif // MAINWINDOW_H
