@@ -62,15 +62,18 @@ void MainWindow::searchButtonClicked() {
 void MainWindow::processOutputHandler()
 {
     while ( agProcess->canReadLine() ) {
-        QString path = QString(agProcess->readLine()).mid(1); // mid(1) due to "--ackmate" argument
+        QString raw = QString(agProcess->readLine());
+        // mid(1) due to "--ackmate" argument
+        QString path = raw.mid(1, raw.size()-2);
         addTreeWidgetItem(path);
+        ui->statusBar->showMessage(QString("%1 found").arg(path));
     }
 }
 
 
 void MainWindow::processFinished()
 {
-    QMessageBox::information(this, "Title", "Ag process finished!");
+ui->statusBar->showMessage("Done!");
 }
 
 // ==========================================================
