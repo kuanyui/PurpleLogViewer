@@ -173,11 +173,11 @@ void MainWindow::addTreeWidgetItem(const QString logFilePath)  // log file path
     log_file_item->setText(0, filename_str);
 }
 
-QTreeWidgetItem* MainWindow::itemExist(const QTreeWidget &tree_widget, const QString &pattern)
+QTreeWidgetItem* MainWindow::itemExist(QTreeWidget *tree_widget, const QString &pattern)
 {
-    QTreeWidgetItemIterator itemIterator(tree_widget, QTreeWidgetItemIterator::NoChildren);
+    QTreeWidgetItemIterator itemIterator(tree_widget);
     while (*itemIterator)  {
-        if ((*itemIterator)->text() == pattern){
+        if ((*itemIterator)->text(0) == pattern){
             return (*itemIterator);
         }
         ++itemIterator;
@@ -185,11 +185,11 @@ QTreeWidgetItem* MainWindow::itemExist(const QTreeWidget &tree_widget, const QSt
     return nullptr;
 }
 
-QTreeWidgetItem* MainWindow::itemExist(const QTreeWidgetItem &item, const QString &pattern)
+QTreeWidgetItem* MainWindow::itemExist(QTreeWidgetItem *item, const QString &pattern)
 {
-    QTreeWidgetItemIterator itemIterator(item, QTreeWidgetItemIterator::NoChildren);
+    QTreeWidgetItemIterator itemIterator(item);
     while (*itemIterator)  {
-        if ((*itemIterator)->text() == pattern){
+        if ((*itemIterator)->text(0) == pattern){
             return (*itemIterator);
         }
         ++itemIterator;

@@ -38,8 +38,8 @@ private:
 
     // tree widget
     void addTreeWidgetItem(const QString logFilePath);
-    QTreeWidgetItem* itemExist(const QTreeWidgetItem &item, const QString &pattern);
-    QTreeWidgetItem* itemExist(const QTreeWidget &tree_widget, const QString &pattern);
+    QTreeWidgetItem* itemExist(QTreeWidgetItem *item, const QString &pattern);
+    QTreeWidgetItem* itemExist(QTreeWidget *tree_widget, const QString &pattern);
 };
 
 #endif // MAINWINDOW_H
