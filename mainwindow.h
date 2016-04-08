@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QProcess>
 #include <QDir>
+#include <QTreeWidget>
 
 namespace Ui {
 class MainWindow;
@@ -36,7 +37,9 @@ private:
     void setupPathSelector();
 
     // tree widget
-    void addTreeWidgetItem(QString path);
+    void addTreeWidgetItem(QString fullFilePathPath);
+    bool itemExist(QTreeWidgetItem &item, QString &pattern);
+    bool itemExist(QTreeWidget &tree_widget, QString &pattern);
 };
 
 #endif // MAINWINDOW_H

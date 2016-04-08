@@ -10,6 +10,7 @@
 
 #define LOG_ROOT QDir::homePath() + QString("/.purple/logs/")
 #define CBOX_EMPTY_STR "--All--"
+#define SEP QDir::separator();
 
 // http://log.noiretaya.com/200
 
@@ -142,7 +143,36 @@ QString MainWindow::getCurrentPath(bool fullPath)
 // ==========================================================
 
 
-void MainWindow::addTreeWidgetItem(QString path)
+void MainWindow::addTreeWidgetItem(QString fullFilePath)
 {
+    QString relativePath = fullFilePath.mid(LOG_ROOT.length());
+    QStringList pro_acc_fri_file = relativePath.split(SEP);
+    QString &protocol_str = pro_acc_fri_file[0];
+    QString &account_str = pro_acc_fri_file[1];
+    QString &friend_str = pro_acc_fri_file[2];
+    QString &filename_str = pro_acc_fri_file[3];
+}
 
+bool MainWindow::itemExist(QTreeWidget &tree_widget, QString &pattern)
+{
+    QTreeWidgetItemIterator itemIterator(tree_widget);
+    while (*itemIterator)  {
+        if ((*itemIterator)->text() == pattern){
+            return true;
+        }
+        ++itemIterator;
+    }
+    return false;
+}
+
+bool MainWindow::itemExist(QTreeWidgetItem &item, QString &pattern)
+{
+    QTreeWidgetItemIterator itemIterator(item);
+    while (*itemIterator)  {
+        if ((*itemIterator)->text() == pattern){
+            return true;
+        }
+        ++itemIterator;
+    }
+    return false;
 }
