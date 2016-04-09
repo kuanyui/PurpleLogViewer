@@ -64,6 +64,7 @@ void MainWindow::changeButtonToStop(){
 
 void MainWindow::searchButtonClicked()
 {
+    ui->tree_widget->clear();
     QStringList args;
     args << "--files-with-matches" << "--ackmate" << getKeyword() << getCurrentPath();
     agProcess->start("ag", args);
