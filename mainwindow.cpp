@@ -75,6 +75,7 @@ void MainWindow::searchButtonClicked()
             addTreeWidgetItem(it.next());
             ui->statusBar->showMessage(it.next());
         }
+        ui->tree_widget->sortItems(0, Qt::DescendingOrder);
     } else {
         QStringList args;
         args << "--files-with-matches" << "--ackmate" << keyword << getCurrentPath();
@@ -103,6 +104,7 @@ void MainWindow::processOutputHandler()
 
 void MainWindow::processFinished()
 {
+    ui->tree_widget->sortItems(0, Qt::DescendingOrder);
     ui->statusBar->showMessage("Done!");
     changeButtonToSearch();
 }
