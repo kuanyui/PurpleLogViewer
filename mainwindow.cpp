@@ -129,7 +129,7 @@ void MainWindow::updateAccountSelector()
         qdir.cd(LOG_ROOT + protocol);
         qDebug() << qdir.currentPath();
         qDebug() << qdir.entryList();
-        ui->account_box->addItems(qdir.entryList());
+        ui->account_box->addItems(qdir.entryList(QDir::NoFilter, QDir::Size)); // Sort by file/dir amount
     }
 }
 
@@ -142,7 +142,7 @@ void MainWindow::updateFriendSelector()
     if (account != CBOX_EMPTY_STR)
     {
         qdir.cd(LOG_ROOT + protocol + "/" + account);
-        ui->friend_box->addItems(qdir.entryList());
+        ui->friend_box->addItems(qdir.entryList(QDir::NoFilter, QDir::Size)); // Sort
     }
 }
 
