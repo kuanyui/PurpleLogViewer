@@ -105,7 +105,7 @@
         </property>
        </column>
       </widget>
-      <widget class="QTextBrowser" name="html_browser">
+      <widget class="QTextBrowser" name="text_browser">
        <property name="html">
         <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
@@ -117,15 +117,6 @@ p, li { white-space: pre-wrap; }
      </widget>
     </item>
    </layout>
-   <zorder>splitter</zorder>
-   <zorder>protocol_box</zorder>
-   <zorder>account_box</zorder>
-   <zorder>friend_box</zorder>
-   <zorder>search_button</zorder>
-   <zorder>keyword</zorder>
-   <zorder>label</zorder>
-   <zorder>label_2</zorder>
-   <zorder>label_3</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">

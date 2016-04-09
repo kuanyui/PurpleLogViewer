@@ -26,6 +26,8 @@ private slots:
     // path selector
     void updateAccountSelector();
     void updateFriendSelector();
+    // text browser
+    void tryToOpenThisLogFile(QTreeWidgetItem *item, int column);
 
 private:
     Ui::MainWindow *ui;
@@ -45,6 +47,9 @@ private:
     void addTreeWidgetItem(const QString logFilePath);
     QTreeWidgetItem* itemExist(QTreeWidgetItem *item, const QString &pattern);
     QTreeWidgetItem* itemExist(QTreeWidget *tree_widget, const QString &pattern);
+
+    // text browser
+    void openLogFile(const QString logFilePath);
 };
 
 #endif // MAINWINDOW_H

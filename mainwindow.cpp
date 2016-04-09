@@ -8,6 +8,7 @@
 #include <QDir>
 #include <QTreeWidget>
 #include <QDirIterator>
+#include <QUrl>
 
 #define CBOX_EMPTY_STR "--All--"
 #define SEP QDir::separator()
@@ -22,11 +23,14 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     agProcess = new QProcess(this);
     setupPathSelector();
-    // Setup process
+    // Signals ===============================
+    changeButtonToSearch();
+    // process
     connect(agProcess, SIGNAL(finished(int)), this, SLOT(processFinished()));
     connect(agProcess, SIGNAL(readyRead()),   this, SLOT(processOutputHandler()));
-    // click button
-    changeButtonToSearch();
+    // text browser
+    connect(ui->tree_widget, SIGNAL(itemClicked(QTreeWidgetItem*,int)),
+            this, SLOT(tryToOpenThisLogFile(QTreeWidgetItem*,int)));
 }
 
 MainWindow::~MainWindow()
@@ -232,4 +236,24 @@ QTreeWidgetItem* MainWindow::itemExist(QTreeWidgetItem *item, const QString &pat
         ++itemIterator;
     }
     return nullptr;
+}
+
+
+// ==========================================================
+// Text Browser
+// ==========================================================
+
+void MainWindow::tryToOpenThisLogFile(QTreeWidgetItem *item, int column){
+    if (item->childCount() == 0) {
+        QString html_file   = item->text(0);
+        QString friend_chat = item->parent()->text(0);
+        QString account     = item->parent()->parent()->text(0);
+        QString protocol    = item->parent()->parent()->parent()->text(0);
+        QString path = LOG_ROOT + "/" + protocol + "/" + account + "/" + friend_chat + "/" + html_file;
+        ui->text_browser->setSource(QUrl(path));
+    }
+}
+
+void MainWindow::highlightKeyword(const QString keyword){
+
 }
