@@ -7,10 +7,11 @@
 #include <QStringList>
 #include <QDir>
 #include <QTreeWidget>
+#include <QDirIterator>
 
-#define LOG_ROOT QDir::homePath() + QString("/.purple/logs/")
 #define CBOX_EMPTY_STR "--All--"
 #define SEP QDir::separator()
+const QString LOG_ROOT = QDir::homePath() + QString("/.purple/logs/");
 
 // http://log.noiretaya.com/200
 
@@ -65,10 +66,21 @@ void MainWindow::changeButtonToStop(){
 void MainWindow::searchButtonClicked()
 {
     ui->tree_widget->clear();
-    QStringList args;
-    args << "--files-with-matches" << "--ackmate" << getKeyword() << getCurrentPath();
-    agProcess->start("ag", args);
-    changeButtonToStop();
+    QString keyword = getKeyword();
+    if (keyword.isEmpty()){
+        QStringList patterns = QStringList();
+        patterns << "*.html";
+        QDirIterator it(getCurrentPath(), patterns, QDir::Files, QDirIterator::Subdirectories);
+        while (it.hasNext()) {
+            addTreeWidgetItem(it.next());
+            ui->statusBar->showMessage(it.next());
+        }
+    } else {
+        QStringList args;
+        args << "--files-with-matches" << "--ackmate" << keyword << getCurrentPath();
+        agProcess->start("ag", args);
+        changeButtonToStop();
+    }
 }
 
 void MainWindow::stopButtonClicked()
