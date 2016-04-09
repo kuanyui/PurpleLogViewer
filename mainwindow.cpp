@@ -176,6 +176,7 @@ void MainWindow::addTreeWidgetItem(const QString logFilePath)  // log file path
     if (protocol_item == nullptr){
         protocol_item = new QTreeWidgetItem(ui->tree_widget);
         protocol_item->setText(0, protocol_str);
+        protocol_item->setFont(0, QFont("Helvetica", 12, QFont::Bold));
     }
     // Account
     QTreeWidgetItem *account_item = itemExist(protocol_item, account_str);
