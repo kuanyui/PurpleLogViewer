@@ -22,24 +22,21 @@ MainWindow::MainWindow(QWidget *parent) :
     agProcess = new QProcess(this);
     setupPathSelector();
     // Setup process
-    connect(agProcess, SIGNAL(finished(int)),
-            this,      SLOT(processFinished()));
-    connect(agProcess, SIGNAL(readyRead()),
-            this,      SLOT(processOutputHandler()));
+    connect(agProcess, SIGNAL(finished(int)), this, SLOT(processFinished()));
+    connect(agProcess, SIGNAL(readyRead()),   this, SLOT(processOutputHandler()));
     // click button
-    connect(ui->search_button, SIGNAL(clicked()),
-            this,              SLOT(searchButtonClicked()));
+    changeButtonToSearch();
 }
 
 MainWindow::~MainWindow()
 {
-    delete ui;
     if (agProcess->state() == QProcess::Running)
     {
-        agProcess->kill();
+        agProcess->close();
         agProcess->waitForFinished();
     }
     delete agProcess;
+    delete ui;
 }
 
 
@@ -51,13 +48,33 @@ QString MainWindow::getKeyword(){
 // QProcess
 // ==========================================================
 
-void MainWindow::searchButtonClicked() {
+void MainWindow::changeButtonToSearch(){
+    // replace slot (stop -> search)
+    ui->search_button->setText("Search");
+    ui->search_button->disconnect();
+    connect(ui->search_button, SIGNAL(clicked()), this, SLOT(searchButtonClicked()));
+}
+
+void MainWindow::changeButtonToStop(){
+    // replace slot (search -> stop)
+    ui->search_button->setText("Stop");
+    ui->search_button->disconnect();
+    connect(ui->search_button, SIGNAL(clicked()), this, SLOT(stopButtonClicked()));
+}
+
+void MainWindow::searchButtonClicked()
+{
     QStringList args;
     args << "--files-with-matches" << "--ackmate" << getKeyword() << getCurrentPath();
     agProcess->start("ag", args);
-    qDebug() << args;
+    changeButtonToStop();
 }
 
+void MainWindow::stopButtonClicked()
+{
+    agProcess->terminate();
+
+}
 
 void MainWindow::processOutputHandler()
 {
@@ -73,7 +90,8 @@ void MainWindow::processOutputHandler()
 
 void MainWindow::processFinished()
 {
-ui->statusBar->showMessage("Done!");
+    ui->statusBar->showMessage("Done!");
+    changeButtonToSearch();
 }
 
 // ==========================================================

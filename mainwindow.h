@@ -20,6 +20,7 @@ public:
 
 private slots:
     void searchButtonClicked();
+    void stopButtonClicked();
     void processOutputHandler();
     void processFinished();
     // path selector
@@ -30,7 +31,11 @@ private:
     Ui::MainWindow *ui;
     QProcess *agProcess;
 
+    // Ui
+    void changeButtonToSearch();
+    void changeButtonToStop();
     QString getKeyword();
+
     // path selector
     QDir qdir;
     QString getCurrentPath(bool fullPath = true);
