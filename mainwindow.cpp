@@ -9,6 +9,9 @@
 #include <QTreeWidget>
 #include <QDirIterator>
 #include <QUrl>
+#include <QTextDocument>
+#include <QTextCursor>
+#include <QTextCharFormat>
 
 #define CBOX_EMPTY_STR "--All--"
 #define SEP QDir::separator()
@@ -45,9 +48,6 @@ MainWindow::~MainWindow()
 }
 
 
-QString MainWindow::getKeyword(){
-    return ui->keyword->text();
-}
 
 // ==========================================================
 // QProcess
@@ -70,7 +70,7 @@ void MainWindow::changeButtonToStop(){
 void MainWindow::searchButtonClicked()
 {
     ui->tree_widget->clear();
-    QString keyword = getKeyword();
+    QString keyword = ui->keyword->text();
     if (keyword.isEmpty()){
         QStringList patterns = QStringList();
         patterns << "*.html";
@@ -249,11 +249,36 @@ void MainWindow::tryToOpenThisLogFile(QTreeWidgetItem *item, int column){
         QString friend_chat = item->parent()->text(0);
         QString account     = item->parent()->parent()->text(0);
         QString protocol    = item->parent()->parent()->parent()->text(0);
-        QString path = LOG_ROOT + "/" + protocol + "/" + account + "/" + friend_chat + "/" + html_file;
-        ui->text_browser->setSource(QUrl(path));
+        QString path = LOG_ROOT + protocol + "/" + account + "/" + friend_chat + "/" + html_file;
+        QUrl url = QUrl::fromLocalFile(path);
+        ui->text_browser->setSource(url);
     }
 }
+  // [Example] https://doc.qt.io/archives/4.6/uitools-textfinder.html
 
-void MainWindow::highlightKeyword(const QString keyword){
+void MainWindow::highlightKeyword(){
+    QString keyword = ui->highlight_keyword->text();
+    QTextDocument *document = ui->text_browser->document();
+    ui->text_browser->undo();   // try to undo, no matter has hightlighted or not.
+    ui->text_browser->setUndoRedoEnabled(false);
+    ui->text_browser->setUndoRedoEnabled(true);
+
+    if (!keyword.isEmpty()) {
+        QTextCursor highlightCursor(document);
+        QTextCursor cursor(document);
+        cursor.beginEditBlock(); // Begin Edit ----------------------------
+        QTextCharFormat plainFormat     (highlightCursor.charFormat());
+        QTextCharFormat highlightFormat (highlightCursor.charFormat());
+        highlightFormat.setBackground(Qt::yellow);
+        while (!highlightCursor.isNull() && !highlightCursor.atEnd()) {
+            highlightCursor = document->find(keyword, highlightCursor,QTextDocument::FindWholeWords);
+            if (!highlightCursor.isNull()) {
+                highlightCursor.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor, keyword.length());
+                highlightCursor.mergeCharFormat(highlightFormat);
+            }
+        }
+        cursor.endEditBlock(); // End Edit --------------------------------
+    }
+
 
 }

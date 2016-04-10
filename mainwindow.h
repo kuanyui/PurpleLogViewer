@@ -36,7 +36,6 @@ private:
     // Ui
     void changeButtonToSearch();
     void changeButtonToStop();
-    QString getKeyword();
 
     // path selector
     QDir qdir;
@@ -49,7 +48,7 @@ private:
     QTreeWidgetItem* itemExist(QTreeWidget *tree_widget, const QString &pattern);
 
     // text browser
-    void openLogFile(const QString logFilePath);
+    void highlightKeyword();
 };
 
 #endif // MAINWINDOW_H
