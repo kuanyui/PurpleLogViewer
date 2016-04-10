@@ -274,7 +274,6 @@ void MainWindow::highlightKeyword(QString keyword){
         while (!highlightCursor.isNull() && !highlightCursor.atEnd()) {
             highlightCursor = document->find(keyword, highlightCursor);
             if (!highlightCursor.isNull()) {
-                //highlightCursor.movePosition(QTextCursor::NoMove, QTextCursor::KeepAnchor);
                 highlightCursor.mergeCharFormat(highlightFormat);
             }
         }
