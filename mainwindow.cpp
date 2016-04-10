@@ -34,6 +34,8 @@ MainWindow::MainWindow(QWidget *parent) :
     // text browser
     connect(ui->tree_widget, SIGNAL(itemClicked(QTreeWidgetItem*,int)),
             this, SLOT(tryToOpenThisLogFile(QTreeWidgetItem*,int)));
+    connect(ui->highlight_keyword, SIGNAL(textChanged(QString)),
+            this, SLOT(highlightKeyword(QString)));
 }
 
 MainWindow::~MainWindow()
@@ -256,8 +258,7 @@ void MainWindow::tryToOpenThisLogFile(QTreeWidgetItem *item, int column){
 }
   // [Example] https://doc.qt.io/archives/4.6/uitools-textfinder.html
 
-void MainWindow::highlightKeyword(){
-    QString keyword = ui->highlight_keyword->text();
+void MainWindow::highlightKeyword(QString keyword){
     QTextDocument *document = ui->text_browser->document();
     ui->text_browser->undo();   // try to undo, no matter has hightlighted or not.
     ui->text_browser->setUndoRedoEnabled(false);
@@ -267,13 +268,13 @@ void MainWindow::highlightKeyword(){
         QTextCursor highlightCursor(document);
         QTextCursor cursor(document);
         cursor.beginEditBlock(); // Begin Edit ----------------------------
-        QTextCharFormat plainFormat     (highlightCursor.charFormat());
         QTextCharFormat highlightFormat (highlightCursor.charFormat());
         highlightFormat.setBackground(Qt::yellow);
+        highlightFormat.setForeground(Qt::black);
         while (!highlightCursor.isNull() && !highlightCursor.atEnd()) {
-            highlightCursor = document->find(keyword, highlightCursor,QTextDocument::FindWholeWords);
+            highlightCursor = document->find(keyword, highlightCursor);
             if (!highlightCursor.isNull()) {
-                highlightCursor.movePosition(QTextCursor::Right, QTextCursor::KeepAnchor, keyword.length());
+                //highlightCursor.movePosition(QTextCursor::NoMove, QTextCursor::KeepAnchor);
                 highlightCursor.mergeCharFormat(highlightFormat);
             }
         }

@@ -28,6 +28,7 @@ private slots:
     void updateFriendSelector();
     // text browser
     void tryToOpenThisLogFile(QTreeWidgetItem *item, int column);
+    void highlightKeyword(QString keyword);
 
 private:
     Ui::MainWindow *ui;
@@ -47,8 +48,7 @@ private:
     QTreeWidgetItem* itemExist(QTreeWidgetItem *item, const QString &pattern);
     QTreeWidgetItem* itemExist(QTreeWidget *tree_widget, const QString &pattern);
 
-    // text browser
-    void highlightKeyword();
+
 };
 
 #endif // MAINWINDOW_H
