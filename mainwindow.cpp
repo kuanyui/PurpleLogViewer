@@ -128,17 +128,11 @@ void MainWindow::setupPathSelector()
     qdir = QDir(LOG_ROOT);
     qdir.setFilter(QDir::AllDirs | QDir::NoDotAndDotDot);
 
-    connect(ui->protocol_box, SIGNAL( currentTextChanged(QString) ),
-            ui->account_box, SLOT( clear() ));
-    connect(ui->protocol_box, SIGNAL( currentTextChanged(QString) ),
-            ui->friend_box, SLOT( clear() ));
-    connect(ui->account_box, SIGNAL( currentTextChanged(QString) ),
-            ui->friend_box, SLOT( clear() ));
-
-    connect(ui->protocol_box, SIGNAL( currentTextChanged(QString) ),
-            this, SLOT(updateAccountSelector()));
-    connect(ui->account_box, SIGNAL( currentTextChanged(QString) ),
-            this, SLOT(updateFriendSelector()));
+    connect(ui->protocol_box, SIGNAL( currentTextChanged(QString) ), ui->account_box, SLOT( clear() ));
+    connect(ui->protocol_box, SIGNAL( currentTextChanged(QString) ), ui->friend_box, SLOT( clear() ));
+    connect(ui->account_box,  SIGNAL( currentTextChanged(QString) ), ui->friend_box, SLOT( clear() ));
+    connect(ui->protocol_box, SIGNAL( currentTextChanged(QString) ), this, SLOT(updateAccountSelector()));
+    connect(ui->account_box,  SIGNAL( currentTextChanged(QString) ), this, SLOT(updateFriendSelector()));
 
     ui->protocol_box->addItem(CBOX_EMPTY_STR);
     ui->protocol_box->addItems(qdir.entryList());
