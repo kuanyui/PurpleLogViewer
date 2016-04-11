@@ -56,7 +56,7 @@ private:
     // Highlight
     QList<QTextCursor> m_highlightedPositions;
     int m_highlightedIndex = 0;
-    void showHighlightIndex();
+    void showHighlightIndexMessage();
 };
 
 #endif // MAINWINDOW_H

@@ -28,7 +28,7 @@ MainWindow::MainWindow(QWidget *parent) :
     setupPathSelector();
     // Signals ===============================
     changeButtonToSearch();
-    connect(ui->keyword, SIGNAL(returnPressed()), ui->search_button, SIGNAL(clicked()));
+    connect(ui->search_lineedit, SIGNAL(returnPressed()), ui->search_button, SIGNAL(clicked()));
     // process
     connect(agProcess, SIGNAL(readyRead()),   this, SLOT(processOutputHandler()));
     connect(agProcess, SIGNAL(finished(int)), this, SLOT(processFinished()));
@@ -36,11 +36,11 @@ MainWindow::MainWindow(QWidget *parent) :
     // text browser
     connect(ui->tree_widget, SIGNAL(itemClicked(QTreeWidgetItem*,int)), this, SLOT(tryToOpenThisLogFile(QTreeWidgetItem*,int)));
     connect(ui->tree_widget, SIGNAL(itemClicked(QTreeWidgetItem*,int)), this, SLOT(highlightKeyword()));
-    connect(ui->highlight_keyword, SIGNAL(textChanged(QString)), this, SLOT(highlightKeyword(QString)));
+    connect(ui->highlight_lineedit, SIGNAL(textChanged(QString)), this, SLOT(highlightKeyword(QString)));
     // highlight search
-    connect(ui->highlight_keyword_next, SIGNAL(clicked(bool)), this, SLOT(nextHighlight()));
-    connect(ui->highlight_keyword_previous, SIGNAL(clicked(bool)), this, SLOT(previousHighlight()));
-    connect(ui->highlight_keyword, SIGNAL(returnPressed()), ui->highlight_keyword_next, SIGNAL(clicked()));
+    connect(ui->highlight_next, SIGNAL(clicked(bool)), this, SLOT(nextHighlight()));
+    connect(ui->highlight_previous, SIGNAL(clicked(bool)), this, SLOT(previousHighlight()));
+    connect(ui->highlight_lineedit, SIGNAL(returnPressed()), ui->highlight_next, SIGNAL(clicked()));
 
 }
 
@@ -63,7 +63,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::changeButtonToSearch(){
     // replace slot (stop -> search)
-    ui->search_button->setText("Search");
+    ui->search_button->setText("Search all logs");
     ui->search_button->disconnect();
     connect(ui->search_button, SIGNAL(clicked()), this, SLOT(searchButtonClicked()));
 }
@@ -78,7 +78,7 @@ void MainWindow::changeButtonToStop(){
 void MainWindow::searchButtonClicked()
 {
     ui->tree_widget->clear();
-    QString keyword = ui->keyword->text();
+    QString keyword = ui->search_lineedit->text();
     if (keyword.isEmpty()){
         QStringList patterns = QStringList();
         patterns << "*.html";
@@ -261,12 +261,12 @@ void MainWindow::tryToOpenThisLogFile(QTreeWidgetItem *item, int column){
 // ==========================================================
 
 void MainWindow::setupDefaultHighlightKeywordFromSearch(){
-    QString search_keyword = ui->keyword->text();
-    ui->highlight_keyword->setText(search_keyword);
+    QString search_keyword = ui->search_lineedit->text();
+    ui->highlight_lineedit->setText(search_keyword);
 }
 
 void MainWindow::highlightKeyword(){
-    highlightKeyword(ui->highlight_keyword->text());
+    highlightKeyword(ui->highlight_lineedit->text());
 }
 
   // [Example] https://doc.qt.io/archives/4.6/uitools-textfinder.html
@@ -297,9 +297,9 @@ void MainWindow::highlightKeyword(QString keyword){
     }
 
     if (m_highlightedPositions.isEmpty()){
-        ui->highlight_keyword->setStyleSheet("color: #fff;background-color: #f88");
+        ui->highlight_lineedit->setStyleSheet("color: #fff;background-color: #f88");
     } else {
-        ui->highlight_keyword->setStyleSheet("color: #000;background-color: #8f8");
+        ui->highlight_lineedit->setStyleSheet("color: #000;background-color: #8f8");
         ui->text_browser->setTextCursor(m_highlightedPositions.first()); // jump to the first cursor
         showHighlightIndexMessage();
     }

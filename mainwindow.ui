@@ -73,12 +73,12 @@
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_2">
       <item>
-       <widget class="QLineEdit" name="keyword"/>
+       <widget class="QLineEdit" name="search_lineedit"/>
       </item>
       <item>
        <widget class="QPushButton" name="search_button">
         <property name="text">
-         <string>Search</string>
+         <string>Search all logs</string>
         </property>
        </widget>
       </item>
@@ -134,12 +134,12 @@ p, li { white-space: pre-wrap; }
           <item>
            <widget class="QLabel" name="label_4">
             <property name="text">
-             <string>Highlight Keyword</string>
+             <string>Highlight keyword in this log</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="highlight_keyword">
+           <widget class="QLineEdit" name="highlight_lineedit">
             <property name="sizePolicy">
              <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
               <horstretch>4</horstretch>
@@ -149,7 +149,7 @@ p, li { white-space: pre-wrap; }
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="highlight_keyword_previous">
+           <widget class="QPushButton" name="highlight_previous">
             <property name="sizePolicy">
              <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -168,7 +168,7 @@ p, li { white-space: pre-wrap; }
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="highlight_keyword_next">
+           <widget class="QPushButton" name="highlight_next">
             <property name="sizePolicy">
              <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -193,22 +193,6 @@ p, li { white-space: pre-wrap; }
      </layout>
     </item>
    </layout>
-  </widget>
-  <widget class="QMenuBar" name="menuBar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>601</width>
-     <height>17</height>
-    </rect>
-   </property>
-   <widget class="QMenu" name="menuHelp">
-    <property name="title">
-     <string>Help</string>
-    </property>
-   </widget>
-   <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
  </widget>
