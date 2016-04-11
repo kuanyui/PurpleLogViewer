@@ -36,6 +36,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->tree_widget, SIGNAL(itemClicked(QTreeWidgetItem*,int)), this, SLOT(tryToOpenThisLogFile(QTreeWidgetItem*,int)));
     connect(ui->tree_widget, SIGNAL(itemClicked(QTreeWidgetItem*,int)), this, SLOT(highlightKeyword()));
     connect(ui->highlight_keyword, SIGNAL(textChanged(QString)), this, SLOT(highlightKeyword(QString)));
+    // highlight search
+    connect(ui->highlight_keyword_next, SIGNAL(clicked(bool)), this, SLOT(nextHighlight()));
 
 }
 
@@ -257,6 +259,9 @@ void MainWindow::tryToOpenThisLogFile(QTreeWidgetItem *item, int column){
         ui->text_browser->setSource(url);
     }
 }
+// ==========================================================
+// Highlight
+// ==========================================================
 
 void MainWindow::setupDefaultHighlightKeywordFromSearch(){
     QString search_keyword = ui->keyword->text();
@@ -278,6 +283,7 @@ void MainWindow::highlightKeyword(QString keyword){
     if (!keyword.isEmpty()) {
         QTextCursor highlightCursor(document);
         QTextCursor cursor(document);
+        m_highlightedPositions.clear(); // record matched position
         cursor.beginEditBlock(); // Begin Edit ----------------------------
         while (!highlightCursor.isNull() && !highlightCursor.atEnd()) {
             highlightCursor = document->find(keyword, highlightCursor);
@@ -286,10 +292,32 @@ void MainWindow::highlightKeyword(QString keyword){
             highlightFormat.setForeground(Qt::black);
             if (!highlightCursor.isNull()) {
                 highlightCursor.mergeCharFormat(highlightFormat);
+                m_highlightedPositions.append(highlightCursor);
             }
         }
         cursor.endEditBlock(); // End Edit --------------------------------
     }
 
+    if (m_highlightedPositions.isEmpty()){
+        ui->highlight_keyword->setStyleSheet("color: #fff;background-color: #f88");
+    } else {
+        ui->highlight_keyword->setStyleSheet("color: #000;background-color: #8f8");
+        ui->text_browser->setTextCursor(m_highlightedPositions.first()); // jump to the cursor
+    }
+}
 
+
+void MainWindow::nextHighlight(){
+    QTextDocument *document = ui->text_browser->document();
+    QTextCursor cursor (document);
+    QString highlight_keyword = ui->highlight_keyword->text();
+    cursor = document->find(highlight_keyword, cursor);
+    ui->text_browser->setTextCursor(cursor);
+}
+
+void MainWindow::previousHighlight(){
+    QTextDocument *document = ui->text_browser->document();
+    QTextCursor cursor (document);
+    QString highlight_keyword = ui->highlight_keyword->text();
+    cursor = document->find(highlight_keyword, cursor);
 }

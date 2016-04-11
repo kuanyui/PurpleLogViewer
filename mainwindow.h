@@ -5,6 +5,7 @@
 #include <QProcess>
 #include <QDir>
 #include <QTreeWidget>
+#include <QTextCursor>
 
 namespace Ui {
 class MainWindow;
@@ -28,10 +29,12 @@ private slots:
     void updateFriendSelector();
     // text browser
     void tryToOpenThisLogFile(QTreeWidgetItem *item, int column);
+    void setupDefaultHighlightKeywordFromSearch();
+    // highlight
     void highlightKeyword(QString keyword);
     void highlightKeyword();
-    void setupDefaultHighlightKeywordFromSearch();
-
+    void nextHighlight();
+    void previousHighlight();
 private:
     Ui::MainWindow *ui;
     QProcess *agProcess;
@@ -49,7 +52,8 @@ private:
     void addTreeWidgetItem(const QString logFilePath);
     QTreeWidgetItem* itemExist(QTreeWidgetItem *item, const QString &pattern);
     QTreeWidgetItem* itemExist(QTreeWidget *tree_widget, const QString &pattern);
-
+    QList<QTextCursor> m_highlightedPositions;
+    int m_highlightedIndex = 0;
 
 };
 
