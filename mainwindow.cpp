@@ -301,7 +301,7 @@ void MainWindow::highlightKeyword(QString keyword){
     } else {
         ui->highlight_keyword->setStyleSheet("color: #000;background-color: #8f8");
         ui->text_browser->setTextCursor(m_highlightedPositions.first()); // jump to the first cursor
-        showHighlightIndex();
+        showHighlightIndexMessage();
     }
 }
 
@@ -310,7 +310,7 @@ void MainWindow::nextHighlight(){
     m_highlightedIndex++;
     m_highlightedIndex = m_highlightedIndex % m_highlightedPositions.length();
     ui->text_browser->setTextCursor(m_highlightedPositions.at(m_highlightedIndex));
-    showHighlightIndex();
+    showHighlightIndexMessage();
 }
 
 void MainWindow::previousHighlight(){
@@ -318,10 +318,10 @@ void MainWindow::previousHighlight(){
     if (m_highlightedIndex < 0)
         m_highlightedIndex = m_highlightedPositions.length() - 1;
     ui->text_browser->setTextCursor(m_highlightedPositions.at(m_highlightedIndex));
-    showHighlightIndex();
+    showHighlightIndexMessage();
 }
 
-void MainWindow::showHighlightIndex(){
+void MainWindow::showHighlightIndexMessage(){
     QString message = QString("Highlighted items: %1/%2")
             .arg(m_highlightedIndex +1)
             .arg(m_highlightedPositions.length());
