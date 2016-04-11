@@ -1,0 +1,13 @@
+* Purple Log Viewer
+This is a simple chat log viewer for chat applications using =libpurple= (e.g. Pidgin).
+
+This program is written in C++/Qt5, with =ag= ([[https://github.com/ggreer/the_silver_searcher][Silver Searcher]]) for text search function.
+
+[[file:screenshot.png]]
+
+* Install
+
+I don't know.
+
+* License
+WTFPL 2.0
