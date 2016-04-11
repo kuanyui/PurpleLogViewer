@@ -268,11 +268,11 @@ void MainWindow::highlightKeyword(QString keyword){
         QTextCursor highlightCursor(document);
         QTextCursor cursor(document);
         cursor.beginEditBlock(); // Begin Edit ----------------------------
-        QTextCharFormat highlightFormat (highlightCursor.charFormat());
-        highlightFormat.setBackground(Qt::yellow);
-        highlightFormat.setForeground(Qt::black);
         while (!highlightCursor.isNull() && !highlightCursor.atEnd()) {
             highlightCursor = document->find(keyword, highlightCursor);
+            QTextCharFormat highlightFormat (highlightCursor.charFormat());
+            highlightFormat.setBackground(Qt::yellow);
+            highlightFormat.setForeground(Qt::black);
             if (!highlightCursor.isNull()) {
                 highlightCursor.mergeCharFormat(highlightFormat);
             }
