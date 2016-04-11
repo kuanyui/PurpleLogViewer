@@ -38,6 +38,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->highlight_keyword, SIGNAL(textChanged(QString)), this, SLOT(highlightKeyword(QString)));
     // highlight search
     connect(ui->highlight_keyword_next, SIGNAL(clicked(bool)), this, SLOT(nextHighlight()));
+    connect(ui->highlight_keyword_previous, SIGNAL(clicked(bool)), this, SLOT(previousHighlight()));
 
 }
 
@@ -284,6 +285,7 @@ void MainWindow::highlightKeyword(QString keyword){
         QTextCursor highlightCursor(document);
         QTextCursor cursor(document);
         m_highlightedPositions.clear(); // record matched position
+        m_highlightedIndex = 0;
         cursor.beginEditBlock(); // Begin Edit ----------------------------
         while (!highlightCursor.isNull() && !highlightCursor.atEnd()) {
             highlightCursor = document->find(keyword, highlightCursor);
@@ -302,22 +304,20 @@ void MainWindow::highlightKeyword(QString keyword){
         ui->highlight_keyword->setStyleSheet("color: #fff;background-color: #f88");
     } else {
         ui->highlight_keyword->setStyleSheet("color: #000;background-color: #8f8");
-        ui->text_browser->setTextCursor(m_highlightedPositions.first()); // jump to the cursor
+        ui->text_browser->setTextCursor(m_highlightedPositions.first()); // jump to the first cursor
     }
 }
 
 
 void MainWindow::nextHighlight(){
-    QTextDocument *document = ui->text_browser->document();
-    QTextCursor cursor (document);
-    QString highlight_keyword = ui->highlight_keyword->text();
-    cursor = document->find(highlight_keyword, cursor);
-    ui->text_browser->setTextCursor(cursor);
+    m_highlightedIndex++;
+    m_highlightedIndex = m_highlightedIndex % m_highlightedPositions.length();
+    ui->text_browser->setTextCursor(m_highlightedPositions.at(m_highlightedIndex));
 }
 
 void MainWindow::previousHighlight(){
-    QTextDocument *document = ui->text_browser->document();
-    QTextCursor cursor (document);
-    QString highlight_keyword = ui->highlight_keyword->text();
-    cursor = document->find(highlight_keyword, cursor);
+    m_highlightedIndex--;
+    if (m_highlightedIndex < 0)
+        m_highlightedIndex = m_highlightedPositions.length() - 1;
+    ui->text_browser->setTextCursor(m_highlightedPositions.at(m_highlightedIndex));
 }
