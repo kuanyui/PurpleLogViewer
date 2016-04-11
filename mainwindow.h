@@ -29,6 +29,8 @@ private slots:
     // text browser
     void tryToOpenThisLogFile(QTreeWidgetItem *item, int column);
     void highlightKeyword(QString keyword);
+    void highlightKeyword();
+    void setupDefaultHighlightKeywordFromSearch();
 
 private:
     Ui::MainWindow *ui;
