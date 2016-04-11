@@ -28,6 +28,7 @@ MainWindow::MainWindow(QWidget *parent) :
     setupPathSelector();
     // Signals ===============================
     changeButtonToSearch();
+    connect(ui->keyword, SIGNAL(returnPressed()), ui->search_button, SIGNAL(clicked()));
     // process
     connect(agProcess, SIGNAL(readyRead()),   this, SLOT(processOutputHandler()));
     connect(agProcess, SIGNAL(finished(int)), this, SLOT(processFinished()));
@@ -39,6 +40,7 @@ MainWindow::MainWindow(QWidget *parent) :
     // highlight search
     connect(ui->highlight_keyword_next, SIGNAL(clicked(bool)), this, SLOT(nextHighlight()));
     connect(ui->highlight_keyword_previous, SIGNAL(clicked(bool)), this, SLOT(previousHighlight()));
+    connect(ui->highlight_keyword, SIGNAL(returnPressed()), ui->highlight_keyword_next, SIGNAL(clicked()));
 
 }
 
@@ -299,6 +301,7 @@ void MainWindow::highlightKeyword(QString keyword){
     } else {
         ui->highlight_keyword->setStyleSheet("color: #000;background-color: #8f8");
         ui->text_browser->setTextCursor(m_highlightedPositions.first()); // jump to the first cursor
+        showHighlightIndex();
     }
 }
 
@@ -307,6 +310,7 @@ void MainWindow::nextHighlight(){
     m_highlightedIndex++;
     m_highlightedIndex = m_highlightedIndex % m_highlightedPositions.length();
     ui->text_browser->setTextCursor(m_highlightedPositions.at(m_highlightedIndex));
+    showHighlightIndex();
 }
 
 void MainWindow::previousHighlight(){
@@ -314,4 +318,12 @@ void MainWindow::previousHighlight(){
     if (m_highlightedIndex < 0)
         m_highlightedIndex = m_highlightedPositions.length() - 1;
     ui->text_browser->setTextCursor(m_highlightedPositions.at(m_highlightedIndex));
+    showHighlightIndex();
+}
+
+void MainWindow::showHighlightIndex(){
+    QString message = QString("Highlighted items: %1/%2")
+            .arg(m_highlightedIndex +1)
+            .arg(m_highlightedPositions.length());
+    ui->statusBar->showMessage(message);
 }

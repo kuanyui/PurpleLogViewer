@@ -52,9 +52,11 @@ private:
     void addTreeWidgetItem(const QString logFilePath);
     QTreeWidgetItem* itemExist(QTreeWidgetItem *item, const QString &pattern);
     QTreeWidgetItem* itemExist(QTreeWidget *tree_widget, const QString &pattern);
+
+    // Highlight
     QList<QTextCursor> m_highlightedPositions;
     int m_highlightedIndex = 0;
-
+    void showHighlightIndex();
 };
 
 #endif // MAINWINDOW_H
